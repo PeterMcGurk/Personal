@@ -112,12 +112,16 @@ Image with Height and Width Adjusted:
 1. Make an images folder in your personal repository, and import an image of your hometown or pet from that folder. Do it unformatted using the image URL and the relative file path method, then do it again but instead change the height and width of your image:
 
 <!--- Fill you answer here. --->
-![MyDog](https://github.com/AguaClara/aguaclara_tutorial/blob/master/Images/Cornell_University_seal.svg.png?raw=true)
 
-![CornellSeal](/Images/Cornell_University_seal.svg.png)
+
+Image URL
+![MyDog](https://github.com/PeterMcGurk/Personal/blob/master/Images/IMG_0191.JPG?raw=true)
 
 Relative file path
 ![MyDog](/Images/IMG_0191.JPG)
+
+Formatted
+<img src="https://github.com/PeterMcGurk/Personal/blob/master/Images/IMG_0191.JPG?raw=true" height=57 width=100>
 
 
 
@@ -130,6 +134,8 @@ To insert a link, all you have to do is enclose your linked text in `[]` followe
 1. Below, write a sentence describing your major, and insert a link to your major's department website.
 
 <!--- Fill you answer here. --->
+I'm a chemical engineer which makes me cool.
+The link the the webpage is [here](https://www.cheme.cornell.edu/)
 
 ## Tables
 Tables in Markdown are slightly harder, but there's an automatic function that allows to you make one easily. When working in a `.md` file, all you have to do is type `table` and hit enter. It will initialize a 2 by 2 table, but you can easily increase the width by going to the last column and hitting `Tab` or it's height by clicking in any cell and hitting `Enter`. Notice in the example how the text below the header is justified left, center, and right. This is due to the line below the header. A line with a colon on the far left of the dashes only indicates left justified, colons on both sides of the dashes indicates centered, and a colon on the far right of the dashes indicates right justified.
@@ -160,6 +166,11 @@ When making tables, it's not important that the lines match up. For example, the
 1. Create a table listing your 3 favorite animals, foods, books, and places on campus. Try out the different cell justifications:
 
 <!--- Fill you answer here. --->
+| Books    | Animals  | Places |
+|:-------- |:--------: | ------: |
+| Who| Dog |  My room      |
+|  even        |   Penguin       |     White library   |
+|   reads       |   Emu       |  PSB      |
 
 
 
@@ -179,10 +190,14 @@ For larger code blocks where you report multiple lines of code, you always start
 1. Below, write a Python print function with a different string using syntax highlighting:
 
 <!--- Fill you answer here. --->
+`print('Hello my name is Peter')`
 
 2. Now write a block of Python code for that same print statement:
 
 <!--- Fill you answer here. --->
+```python
+print('Hello my name is Peter')
+```
 
 
 
@@ -194,7 +209,7 @@ $$ Re_D = \frac{uD}{\nu} $$
 1. Try it on your own! Write your favorite equation using LaTeX source code and toggle the LaTeX preview to see it formatted:
 
 <!--- Fill you answer here. --->
-
+$$ D = m/v $$
 
 # Using Python and Running it With Hydrogen in Markdown
 
@@ -230,6 +245,14 @@ These questions are meant to test what you've learned from the Python Basics tut
 1. Write a conditional statement with 3 conditions: when x is 10, when x is 1, and when x is anything other than 1 or 10. For each condition, have your code print what the value is or isn't.
 
 <!--- Fill you answer here. --->
+```python
+if x == 10:
+  print('10')
+elif x == 1:
+  print('1')
+else:
+  print('other')
+```
 
 
 
@@ -237,6 +260,14 @@ These questions are meant to test what you've learned from the Python Basics tut
 2. Write a `for` loop that takes a variable with an initial value of 0, and adds the current index to the previous value of that variable (i.e. you variable should grow in size every iteration). Perform the iteration 20 times, and have the final value be printed at the end.
 
 <!--- Fill you answer here. --->
+```python
+x = 0
+for y in range(20):
+  x += 1
+
+print(x)
+
+```
 
 
 
@@ -249,13 +280,29 @@ These questions are meant to test what you've learned from the Python Basics tut
 3. Using the NumPy package and `unit_registry`, calculate the value of sin(4) meters, and use the sigfig function from the unit unit_registry module in aide_design to get your answer to 2 sig-figs. *(Hint: You will need to import these packages. Remember how to do that?)*
 
 <!--- Fill you answer here. --->
-
+```python
+from aide_design.play import*
+answer = np.sin(4)*u.meters
+u.default_format = '.2f'
+print(answer)
+```
 
 
 4. Create a `list` of length 5, and verify the length of your list. Once you've done that, turn your `list` into an `array` and apply units of meters to it. After that, create a 5x5 `array`, extract the middle row and middle column. Verify the size of your 2D `array` and apply units of liters to it.
 
 <!--- Fill you answer here. --->
+```python
+from aide_design.play import*
+list = [1,2,3,4,5]
+myarray = np.array(list)*u.m
 
+myarray2 = np.array([[1,1,1,1,1],[2,2,2,2,2],[3,3,3,3,3],[4,4,4,4,4],[5,5,5,5,5]])*u.L
+myarray2[:,2]
+myarray2[2,:]
+
+np.size(myarray2)
+
+```
 
 
 
@@ -276,14 +323,44 @@ $$ D = \frac{k_BT}{6\pi\eta r} $$
 from scipy.constants import Boltzmann as kB_sc # I've imported the unitless value for kB from SciPy
 
 kB = kB_sc * u.joule / u.kelvin # I've given kB units for you in J/K; you can use the kB variable to give you Boltzmann's constant with units
-
 # Write your code here
 
+
+from aide_design.play import*
+def diffusionCalc(T, eta, r):
+  T = T*u.kelvin
+  eta = eta*u.kilogram/u.meter/u.second
+  r = r*u.meter
+  D = kB*T/(6*(np.pi)*eta*r).to_base_units()
+  return D
+
+diffusionCalc(300,.1,.1)
 ```
 
 6. You have a pipe with a radius of 0.2 m with water flowing in it at 2 m<sup>3</sup>/s. You want to see how the Reynolds Number changes as viscosity changes due to a change in temperature from 0 to 200<sup>o</sup>C. Create a plot of Reynolds Number against Temperature in Kelvin to show a relationship. Make sure your plot has a title, labeled axes, and axes grid. You can use functions from `physchem` like `pc.re_pipe` and `pc.viscosity_kinematic`. *(Hint: Make an array of temperatures to input into the `pc.viscosity_kinematic` function)*. Make sure to save you plot to your images folder in your personal repository, and display it below using `plt.show()` and a relative file path to the image.
 
 <!--- Fill you answer here. --->
+```python
+from aide_design.play import*
+flowRate = 2
+radius = .2
+Area = np.pi*radius*radius
+T = np.array([273,323,373,423,473])
+velocity = flowRate/Area
+plt.plot(T,pc.re_pipe(velocity,2*radius,pc.viscosity_kinematic(T)),'.',label = 'Reynolds Number')
+plt.xlabel('Temperature (Kelvin)')
+plt.ylabel('Reynolds Number')
+plt.title('Tutorial graph')
+plt.minorticks_on()
+plt.grid(which = 'major')
+plt.grid(which = 'minor')
+plt.legend(loc = 'lower right', ncol = 1)
+plt.tight_layout()
+plt.savefig('/Users/Peter McGurk/github/Personal/Images/Reynolds_Number.png')
+plt.show()
+```
+
+![ReynoldsGraph](/Images/Reynolds_Number.png)
 
 # Teletype Basics
 In this section you and your team can practice using Teletype together.
@@ -291,13 +368,15 @@ In this section you and your team can practice using Teletype together.
 1. Create a portal for your team members to join. Have them write you words of  encouragement in the space below, and be sure they sign their name next to their encouragements.
 
 <!--- Fill you answer here. --->
-
+You're a genius! -Samba Sowe
+Yes I agree with you Samba --Vanessa Qi
 
 
 
 2. Have you other team members create a portal for you to join. In their Markdown file, write them something encouraging, and sign your name.
 
 <!--- Fill you answer here. --->
+I wrote in Samba and Vanessa's portals.
 
 
 # GitHub Basics
